@@ -1,0 +1,48 @@
+plugins {
+	id 'java'
+}
+
+group = 'com.github.awesome-testing'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.6'
+	annotationProcessor 'org.projectlombok:lombok:1.18.6'
+	testImplementation 'org.springframework:spring-test:4.3.8.RELEASE'
+	testImplementation 'org.springframework:spring-core:4.3.8.RELEASE'
+	testImplementation 'org.springframework:spring-context:4.3.8.RELEASE'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
+
+tasks.withType(Test) {
+	useJUnitPlatform()
+
+	maxParallelForks 4
+
+	outputs.upToDateWhen {false}
+     testLogging {
+       events "passed", "skipped", "failed"
+     }
+  
+  	afterSuite {desc, result ->
+    	if (!desc.parent) {
+  			println("${result.resultType} " +
+  		           "(${result.testCount} tests, " +
+  		           "${result.successfulTestCount} successes, " +
+  		           "${result.failedTestCount} failures, " +
+  		           "${result.skippedTestCount} skipped)")
+  		}
+  	}
+}
