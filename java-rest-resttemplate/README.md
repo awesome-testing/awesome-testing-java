@@ -64,5 +64,5 @@ json-server --watch api.json
 - running one test method:
 
 ```bash
-./gradlew test --tests "com.github.awesometesting.resttemplate.TestingGetMethods.testListContains"
+./gradlew test --tests "usersListShouldContainExpectedElements"
 ```
